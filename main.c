@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 
 typedef struct account{
     char cin[20];
@@ -7,6 +8,32 @@ typedef struct account{
     char lname[20];
     float amt;
 }Account;
+
+void ascSort(Account *a,int len){
+    bool s = 0; int i=0;
+    do{
+        for(int j=0;j<len-i-1;j++){
+            if(a[j].amt > a[j+1].amt){
+                Account tmp = a[j];
+                a[j] = a[j+1];
+                a[j+1] = tmp;}
+        }
+        i++;
+    }while(!s && i<len-1);
+}
+
+void descSort(Account *a,int len){
+    bool s = 0; int i=0;
+    do{
+        for(int j=0;j<len-i-1;j++){
+            if(a[j].amt < a[j+1].amt){
+                Account tmp = a[j];
+                a[j] = a[j+1];
+                a[j+1] = tmp;}
+        }
+        i++;
+    }while(!s && i<len-1);
+}
 
 void createAccount(Account *a){
     printf("\nEntrer le CIN: ");
@@ -47,6 +74,10 @@ int main(){
     printf("\nDonner le nombre des comptes a ajouter: ");scanf("%d",&nbrAc);
     ac = (Account*)malloc(nbrAc*sizeof(Account));
     _createAccounts(ac,nbrAc);
+    printf("\nBEFOR sorting:\n");
+    _displayAccounts(ac,nbrAc);
+    printf("\nAFTER sorting:\n");
+    descSort(ac,nbrAc);
     _displayAccounts(ac,nbrAc);
 
 
