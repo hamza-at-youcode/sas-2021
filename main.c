@@ -100,7 +100,7 @@ void withdrawal(Account *a,int nbrOfAc){
     }
     do{
         printf("\nEntrer le Mantant: ");
-        printf("\n(Le montant doit etre superieur ou egale: %f)\n",a[index].amt);
+        printf("\n(Le montant doit etre inferieur ou egale: %f)\n",a[index].amt);
         printf("> ");
         fflush(stdin);
         scanf("%f",&ammount);
@@ -139,6 +139,9 @@ char menu(){
     printf("   Clicker sur 4: pour fair une Depot.\n");
     printf("   Clicker sur 5: pour afficher les comptes par order Ascendant.\n");
     printf("   Clicker sur 6: pour afficher les comptes par order Descendant.\n");
+    printf("   Clicker sur 7: pour afficher par ordre ascendant\n\t\t  les comptes bancaires ayant un montant superieur\n\t\t  a un chiffre introduit.\n");
+    printf("   Clicker sur 8: pour afficher par ordre descendant\n\t\t  les comptes bancaires ayant un montant superieur\n\t\t  a un chiffre introduit.\n");
+    printf("   Clicker sur 9: pour fair une recherche par CIN.\n");
     printf("   Clicker sur 0: pour quiter.\n"); 
     printf("\n   Votre choi: "); 
     char ch;
@@ -171,10 +174,19 @@ int main(){
             case '4':deposit(ac,nbrAc);break;
             case '5':ascSort(ac,nbrAc);_displayAccounts(ac,nbrAc);break;
             case '6':descSort(ac,nbrAc);_displayAccounts(ac,nbrAc);break;
+            case '7':printf("\nWoking on it...\n");break;
+            case '8':printf("\nWoking on it...\n");break;
+            case '9':{
+                char c[20];
+                printf("\nEntrer le cin: ");
+                fflush(stdin);
+                gets(c);
+                int index = findByCin(ac,c,nbrAc);
+                if(index == -1) printf("\nIl n'ya pas une compte avec le CIN: %s\n",c);
+                else displayAccount(ac[index]);
+            }break;
+
         }
     }while(ch != '0');
-    
-
-
     return 0;
 }
