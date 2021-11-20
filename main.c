@@ -64,10 +64,18 @@ void _displayAccounts(Account a[],int len){
     for(int i=0;i<len;i++) displayAccount(a[i]);
 }
 
-void _createAccounts(Account *a,int nbrOfAc){
-    for(int i=0;i<nbrOfAc;i++){
-        printf("\n\n***** Compte: [%d/%d] *****\n",i+1,nbrOfAc);
-        createAccount(&a[i]);}
+void _createAccounts(Account *ac,int *currentNbrOfAc,int nbrAc){
+    int a = *currentNbrOfAc;
+    int b = a + nbrAc;
+
+    if(ac == NULL) ac = (Account*)malloc(b*sizeof(Account));
+    else ac = (Account*)realloc(ac,b*sizeof(Account));
+
+    for(int i=a;i<b;i++){
+        printf("\n\n***** Compte: [%d/%d] *****\n",i+1,b);
+        createAccount(ac+i);}
+
+    (*currentNbrOfAc) = b;    
 }
 
 int findByCin(Account a[],char cin[],int nbrOfAc){
@@ -148,7 +156,7 @@ int main(){
                 printf("\nEntrer le nombre des comptes: ");
                 fflush(stdin);
                 scanf("%d",&n);
-                // _createAccounts(ac,n);
+                _createAccounts(ac,&nbrAc,n);
             }break;
 
             case '3':{printf("\nWorking on it...");}break;
