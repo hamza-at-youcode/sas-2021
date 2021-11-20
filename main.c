@@ -94,9 +94,17 @@ void withdrawal(Account *a,int nbrOfAc){
     if(index == -1){
     printf("\nIl n'ya pas une compte avec le CIN: %s\n",cin);
     return;}
-    printf("\nEntrer le Mantant: ");
-    fflush(stdin);
-    scanf("%f",&ammount);
+    if(a[index].amt == 0) {
+        printf("\nCe compte est vide!!\n");
+        return;
+    }
+    do{
+        printf("\nEntrer le Mantant: ");
+        printf("\n(Le montant doit etre superieur ou egale: %f)\n",a[index].amt);
+        printf("> ");
+        fflush(stdin);
+        scanf("%f",&ammount);
+    }while((a[index].amt - ammount)<0);
     printf("\nAncien Montant: %f",a[index].amt);
     a[index].amt-=ammount;
     printf("\nMontant Courant: %f",a[index].amt);
@@ -159,8 +167,8 @@ int main(){
                 _createAccounts(ac,&nbrAc,n);
             }break;
 
-            case '3':{printf("\nWorking on it...");}break;
-            case '4':{printf("\nWorking on it...");}break;
+            case '3':withdrawal(ac,nbrAc);break;
+            case '4':deposit(ac,nbrAc);break;
             case '5':ascSort(ac,nbrAc);_displayAccounts(ac,nbrAc);break;
             case '6':descSort(ac,nbrAc);_displayAccounts(ac,nbrAc);break;
         }
