@@ -76,14 +76,14 @@ int findByCin(Account a[],char cin[],int nbrOfAc){
 }
 
 void withdrawal(Account *a,int nbrOfAc){
-    char *cin;
+    char cin[20];
     float ammount;
     printf("\nEntrer le CIN: ");
     fflush(stdin);
     gets(cin);
     int index = findByCin(a,cin,nbrOfAc);
     if(index == -1){
-    printf("Il n'ya pas une compte avec le CIN: %s",cin);
+    printf("\nIl n'ya pas une compte avec le CIN: %s\n",cin);
     return;}
     printf("\nEntrer le Mantant: ");
     fflush(stdin);
@@ -94,14 +94,14 @@ void withdrawal(Account *a,int nbrOfAc){
 }
 
 void deposit(Account *a,int nbrOfAc){
-    char *cin;
+    char cin[20];
     float ammount;
     printf("\nEntrer le CIN: ");
     fflush(stdin);
     gets(cin);
     int index = findByCin(a,cin,nbrOfAc);
     if(index == -1){
-    printf("Il n'ya pas une compte avec le CIN: %s",cin);
+    printf("\nIl n'ya pas une compte avec le CIN: %s\n",cin);
     return;}
     printf("\nEntrer le Mantant: ");
     fflush(stdin);
@@ -120,11 +120,7 @@ int main(){
     _displayAccounts(ac,nbrAc);
 
     // TEST withrwal function
-    fflush(stdin);
-    printf("\nCIN: "); char *c; gets(c);
-    fflush(stdin);
-    printf("\nMtn: "); float m;scanf("%f",&m);
-    withdrawal(ac,c,m,nbrAc);
+    deposit(ac,nbrAc);
     _displayAccounts(ac,nbrAc);
     
 
