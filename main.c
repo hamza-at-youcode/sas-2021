@@ -60,8 +60,8 @@ void displayAccount(Account a){
     printf("----------------------------\n");
 }
 
-void _displayAccounts(Account a[],int len){
-    for(int i=0;i<len;i++) displayAccount(a[i]);
+void _displayAccounts(Account a[],int from,int to){
+    for(int i=from;i<to;i++) displayAccount(a[i]);
 }
 
 void _createAccounts(Account *ac,int *currentNbrOfAc,int nbrAc){
@@ -172,8 +172,8 @@ int main(){
 
             case '3':withdrawal(ac,nbrAc);break;
             case '4':deposit(ac,nbrAc);break;
-            case '5':ascSort(ac,nbrAc);_displayAccounts(ac,nbrAc);break;
-            case '6':descSort(ac,nbrAc);_displayAccounts(ac,nbrAc);break;
+            case '5':ascSort(ac,nbrAc);_displayAccounts(ac,0,nbrAc);break;
+            case '6':descSort(ac,nbrAc);_displayAccounts(ac,0,nbrAc);break;
             case '7':printf("\nWoking on it...\n");break;
             case '8':printf("\nWoking on it...\n");break;
             case '9':{
