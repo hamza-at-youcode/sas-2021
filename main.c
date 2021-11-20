@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+#include<string.h>
 
 typedef struct account{
     char cin[20];
@@ -64,8 +65,50 @@ void _displayAccounts(Account a[],int len){
 
 void _createAccounts(Account *a,int nbrOfAc){
     for(int i=0;i<nbrOfAc;i++){
-        printf("\n\n***** Compte: [%d/%d] *****\n",i,nbrOfAc);
+        printf("\n\n***** Compte: [%d/%d] *****\n",i+1,nbrOfAc);
         createAccount(&a[i]);}
+}
+
+int findByCin(Account a[],char cin[],int nbrOfAc){
+    for(int i=0;i<nbrOfAc;i++)
+    if(strcmp(cin,a[i].cin) == 0) return i;
+    return -1;
+}
+
+void withdrawal(Account *a,int nbrOfAc){
+    char *cin;
+    float ammount;
+    printf("\nEntrer le CIN: ");
+    fflush(stdin);
+    gets(cin);
+    int index = findByCin(a,cin,nbrOfAc);
+    if(index == -1){
+    printf("Il n'ya pas une compte avec le CIN: %s",cin);
+    return;}
+    printf("\nEntrer le Mantant: ");
+    fflush(stdin);
+    scanf("%f",&ammount);
+    printf("\nAncien Montant: %f",a[index].amt);
+    a[index].amt-=ammount;
+    printf("\nMontant Courant: %f",a[index].amt);
+}
+
+void deposit(Account *a,int nbrOfAc){
+    char *cin;
+    float ammount;
+    printf("\nEntrer le CIN: ");
+    fflush(stdin);
+    gets(cin);
+    int index = findByCin(a,cin,nbrOfAc);
+    if(index == -1){
+    printf("Il n'ya pas une compte avec le CIN: %s",cin);
+    return;}
+    printf("\nEntrer le Mantant: ");
+    fflush(stdin);
+    scanf("%f",&ammount);
+    printf("\nAncien Montant: %f",a[index].amt);
+    a[index].amt+=ammount;
+    printf("\nMontant Courant: %f",a[index].amt);
 }
 
 int main(){
@@ -74,11 +117,16 @@ int main(){
     printf("\nDonner le nombre des comptes a ajouter: ");scanf("%d",&nbrAc);
     ac = (Account*)malloc(nbrAc*sizeof(Account));
     _createAccounts(ac,nbrAc);
-    printf("\nBEFOR sorting:\n");
     _displayAccounts(ac,nbrAc);
-    printf("\nAFTER sorting:\n");
-    descSort(ac,nbrAc);
+
+    // TEST withrwal function
+    fflush(stdin);
+    printf("\nCIN: "); char *c; gets(c);
+    fflush(stdin);
+    printf("\nMtn: "); float m;scanf("%f",&m);
+    withdrawal(ac,c,m,nbrAc);
     _displayAccounts(ac,nbrAc);
+    
 
 
     return 0;
