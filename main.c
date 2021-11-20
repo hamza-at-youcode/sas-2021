@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<stdbool.h>
 #include<string.h>
+#include<conio.h>
 
 typedef struct account{
     char cin[20];
@@ -111,17 +112,51 @@ void deposit(Account *a,int nbrOfAc){
     printf("\nMontant Courant: %f",a[index].amt);
 }
 
-int main(){
-    Account *ac;
-    int nbrAc;
-    printf("\nDonner le nombre des comptes a ajouter: ");scanf("%d",&nbrAc);
-    ac = (Account*)malloc(nbrAc*sizeof(Account));
-    _createAccounts(ac,nbrAc);
-    _displayAccounts(ac,nbrAc);
+char menu(){
+    printf("\nPress any key to continue/ ");
+    char c = getch();
+    system("cls");
+    printf("\n\n      ******** MENU ********\n");
+    printf("   Clicker sur 1: pour introduire un compte bancaire.\n");
+    printf("   Clicker sur 2: pour introduire plusieurs comptes bancaires.\n");
+    printf("   Clicker sur 3: pour fair une Retrait .\n");
+    printf("   Clicker sur 4: pour fair une Depot.\n");
+    printf("   Clicker sur 5: pour afficher les comptes par order Ascendant.\n");
+    printf("   Clicker sur 6: pour afficher les comptes par order Descendant.\n");
+    printf("   Clicker sur 0: pour quiter.\n"); 
+    printf("\n   Votre choi: "); 
+    char ch;
+    ch = getch();
+    return ch;
+}
 
-    // TEST withrwal function
-    deposit(ac,nbrAc);
-    _displayAccounts(ac,nbrAc);
+int main(){
+    Account *ac = NULL;
+    int nbrAc = 0;
+    char ch;
+    do{
+        ch = menu();
+        switch(ch){
+            case '1':{
+                nbrAc++;
+                if(ac == NULL) ac = (Account*)malloc(nbrAc*sizeof(Account));
+                else ac = (Account*)realloc(ac,nbrAc*sizeof(Account));
+                createAccount(&ac[nbrAc-1]);
+            }break;
+            case '2':{
+                int n;
+                printf("\nEntrer le nombre des comptes: ");
+                fflush(stdin);
+                scanf("%d",&n);
+                // _createAccounts(ac,n);
+            }break;
+
+            case '3':{printf("\nWorking on it...");}break;
+            case '4':{printf("\nWorking on it...");}break;
+            case '5':ascSort(ac,nbrAc);_displayAccounts(ac,nbrAc);break;
+            case '6':descSort(ac,nbrAc);_displayAccounts(ac,nbrAc);break;
+        }
+    }while(ch != '0');
     
 
 
