@@ -84,6 +84,18 @@ int findByCin(Account a[],char cin[],int nbrOfAc){
     return -1;
 }
 
+int startFrom(Account a[],float amt,int nbrAc){
+    int l = 0, h = nbrAc, m = (l+h)/2;
+    int index = -1;
+    if(amt<a[0].amt || amt>a[nbrAc-1]) return -1;
+    while(l+1 <= h){
+        if(a[m].amt > amt) h = mid-1;
+        else if(a[m].amt < amt) l = mid + 1;
+        index = h;
+    }
+    return index;
+}
+
 void withdrawal(Account *a,int nbrOfAc){
     char cin[20];
     float ammount;
