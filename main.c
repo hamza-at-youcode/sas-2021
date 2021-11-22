@@ -145,6 +145,7 @@ void deposit(Account *a,int nbrOfAc){
 }
 
 void bonus(Account *ac,int nbrAc,float percentage){
+    ascSort(ac,nbrAc);
     for (int i = nbrAc - 1; i >= 0; i--) ac[i].amt*=ac[i].amt*percentage;     
 }
 
