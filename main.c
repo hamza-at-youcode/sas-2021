@@ -145,8 +145,8 @@ void deposit(Account *a,int nbrOfAc){
 }
 
 void bonus(Account *ac,int nbrAc,float percentage){
-    ascSort(ac,nbrAc);
-    for (int i = nbrAc - 1; i >= 0; i--) ac[i].amt*=ac[i].amt*percentage;     
+    descSort(ac,nbrAc);
+    for (int i = 0; i < 3; i++) ac[i].amt*=ac[i].amt*percentage;     
 }
 
 char menu(){
@@ -163,7 +163,7 @@ char menu(){
     printf("   Clicker sur 7: pour afficher par ordre ascendant\n\t\t  les comptes bancaires ayant un montant superieur\n\t\t  a un chiffre introduit.\n");
     printf("   Clicker sur 8: pour afficher par ordre descendant\n\t\t  les comptes bancaires ayant un montant superieur\n\t\t  a un chiffre introduit.\n");
     printf("   Clicker sur 9: pour fair une recherche par CIN.\n");
-    printf("   Clicker sur b: Ajouter 1.3\% aux comptes ayant les 3\n\t\t  premiers montants superieurs.\n");
+    printf("   Clicker sur b: Ajouter 1.3/100 aux comptes ayant les 3\n\t\t  premiers montants superieurs.\n");
     printf("   Clicker sur 0: pour quiter.\n"); 
     printf("\n   Votre choi: "); 
     char ch;
@@ -173,6 +173,7 @@ char menu(){
 
 int main(){
     Account *ac = NULL;
+    ac = (Account*)malloc(sizeof(Account));
     int nbrAc = 0;
     char ch;
     do{
@@ -217,10 +218,9 @@ int main(){
             }break;
             case 'b':{
                 char c;
-                printf("Etes-vous sur de vouloir ajouter 1,3\% aux trois premiers comptes?(y|n)");
+                printf("Etes-vous sur de vouloir ajouter 1,3/100 aux trois premiers comptes?(y|n)");
                 c = getch();
                 if (c == 'y') bonus(ac,nbrAc,1.3);
-                else break;
             }
 
         }
