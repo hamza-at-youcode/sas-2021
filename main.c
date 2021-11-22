@@ -67,15 +67,15 @@ void _displayAccounts(Account a[],int from,int to){
 void _createAccounts(Account *ac,int *currentNbrOfAc,int nbrAc){
     int a = *currentNbrOfAc;
     int b = a + nbrAc;
-
+    
     if(ac == NULL) ac = (Account*)malloc(b*sizeof(Account));
     else ac = (Account*)realloc(ac,b*sizeof(Account));
 
     for(int i=a;i<b;i++){
         printf("\n\n***** Compte: [%d/%d] *****\n",i+1,b);
         createAccount(ac+i);}
-
-    (*currentNbrOfAc) = b;    
+    
+    (*currentNbrOfAc) = b;
 }
 
 int findByCin(Account a[],char cin[],int nbrOfAc){
@@ -89,6 +89,7 @@ int startFrom(Account a[],float amt,int nbrAc){
     int index = -1;
     if(amt<a[0].amt || amt > a[nbrAc-1].amt) return -1;
     while(low+1 <= high){
+        mid = (low+high)/2;
         if(a[mid].amt > amt) high = mid-1;
         else if(a[mid].amt < amt) low = mid + 1;
         else index = mid;
@@ -186,7 +187,14 @@ int main(){
             case '4':deposit(ac,nbrAc);break;
             case '5':ascSort(ac,nbrAc);_displayAccounts(ac,0,nbrAc);break;
             case '6':descSort(ac,nbrAc);_displayAccounts(ac,0,nbrAc);break;
-            case '7':printf("\nWoking on it...\n");break;
+            case '7':{
+                float amount;
+                int index;
+                printf("\nEntrer le montant: "); scanf("%f",&amount);
+                index = startFrom(ac,amount,nbrAc);
+                printf("Index: %d",index);
+
+            }break;
             case '8':printf("\nWoking on it...\n");break;
             case '9':{
                 char c[20];
