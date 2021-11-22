@@ -173,7 +173,6 @@ char menu(){
 
 int main(){
     Account *ac = NULL;
-    ac = (Account*)malloc(sizeof(Account));
     int nbrAc = 0;
     char ch;
     do{
