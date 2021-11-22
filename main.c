@@ -86,17 +86,18 @@ int findByCin(Account a[],char cin[],int nbrOfAc){
     return -1;
 }
 
-void startFrom(Account a[],float amt,int nbrAc){
-    int index = -1;
+void startFrom(Account a[],float amt,int nbrAc,bool desc){
+    int i;
     ascSort(a,nbrAc);
     if(amt<a[0].amt || amt > a[nbrAc-1].amt){
         printf("\nVeuillez fournir un montant entre %0.2f et %0.2f",a[0].amt,a[nbrAc-1].amt);
         return;
     }
-    for (int i = 0; i < nbrAc; i++)
-        if (a[i].amt > amt) index = i;
-
-    _displayAccounts(a,index,nbrAc);     
+    for (i = 0; i < nbrAc; i++) if (a[i].amt >= amt) break;
+    if (desc) {
+        descSort(a,nbrAc);
+        _displayAccounts(a,0,nbrAc-i);
+    }else _displayAccounts(a,i,nbrAc);
 }
 
 void withdrawal(Account *a,int nbrOfAc){
@@ -192,10 +193,13 @@ int main(){
             case '7':{
                 float amount;
                 printf("\nEntrer le montant: "); scanf("%f",&amount);
-                startFrom(ac,amount,nbrAc);
-
+                startFrom(ac,amount,nbrAc,0);
             }break;
-            case '8':printf("\nWoking on it...\n");break;
+            case '8':{
+                float amount;
+                printf("\nEntrer le montant: "); scanf("%f",&amount);
+                startFrom(ac,amount,nbrAc,1);
+            }break;
             case '9':{
                 char c[20];
                 printf("\nEntrer le cin: ");
