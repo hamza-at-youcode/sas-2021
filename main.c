@@ -144,6 +144,10 @@ void deposit(Account *a,int nbrOfAc){
     printf("\nMontant Courant: %f",a[index].amt);
 }
 
+void bonus(Account *ac,int nbrAc,float percentage){
+    for (int i = nbrAc - 1; i >= 0; i--) ac[i].amt*=ac[i].amt*percentage;     
+}
+
 char menu(){
     printf("\nPress any key to continue/ ");
     char c = getch();
@@ -158,6 +162,7 @@ char menu(){
     printf("   Clicker sur 7: pour afficher par ordre ascendant\n\t\t  les comptes bancaires ayant un montant superieur\n\t\t  a un chiffre introduit.\n");
     printf("   Clicker sur 8: pour afficher par ordre descendant\n\t\t  les comptes bancaires ayant un montant superieur\n\t\t  a un chiffre introduit.\n");
     printf("   Clicker sur 9: pour fair une recherche par CIN.\n");
+    printf("   Clicker sur b: Ajouter 1.3\% aux comptes ayant les 3\n\t\t  premiers montants superieurs.\n");
     printf("   Clicker sur 0: pour quiter.\n"); 
     printf("\n   Votre choi: "); 
     char ch;
@@ -209,6 +214,13 @@ int main(){
                 if(index == -1) printf("\nIl n'ya pas une compte avec le CIN: %s\n",c);
                 else displayAccount(ac[index]);
             }break;
+            case 'b':{
+                char c;
+                printf("Etes-vous sur de vouloir ajouter 1,3\% aux trois premiers comptes?(y|n)");
+                c = getch();
+                if (c == 'y') bonus(ac,nbrAc,1.3);
+                else break;
+            }
 
         }
     }while(ch != '0');
