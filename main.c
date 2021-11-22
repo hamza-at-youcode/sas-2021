@@ -12,29 +12,31 @@ typedef struct account{
 }Account;
 
 void ascSort(Account *a,int len){
-    bool s = 0; int i=0;
+    bool sorted = 1; int i=0;
     do{
         for(int j=0;j<len-i-1;j++){
             if(a[j].amt > a[j+1].amt){
                 Account tmp = a[j];
                 a[j] = a[j+1];
-                a[j+1] = tmp;}
+                a[j+1] = tmp;
+                sorted = 0;}
         }
         i++;
-    }while(!s && i<len-1);
+    }while(!sorted && i<len-1);
 }
 
 void descSort(Account *a,int len){
-    bool s = 0; int i=0;
+    bool sorted = 1; int i=0;
     do{
         for(int j=0;j<len-i-1;j++){
             if(a[j].amt < a[j+1].amt){
                 Account tmp = a[j];
                 a[j] = a[j+1];
-                a[j+1] = tmp;}
+                a[j+1] = tmp;
+                sorted = 0;}
         }
         i++;
-    }while(!s && i<len-1);
+    }while(!sorted && i<len-1);
 }
 
 void createAccount(Account *a){
@@ -67,7 +69,7 @@ void _displayAccounts(Account a[],int from,int to){
 void _createAccounts(Account *ac,int *currentNbrOfAc,int nbrAc){
     int a = *currentNbrOfAc;
     int b = a + nbrAc;
-    
+
     if(ac == NULL) ac = (Account*)malloc(b*sizeof(Account));
     else ac = (Account*)realloc(ac,b*sizeof(Account));
 
@@ -84,17 +86,17 @@ int findByCin(Account a[],char cin[],int nbrOfAc){
     return -1;
 }
 
-int startFrom(Account a[],float amt,int nbrAc){
-    int low = 0, high = nbrAc, mid = (low+high)/2;
+void startFrom(Account a[],float amt,int nbrAc){
     int index = -1;
-    if(amt<a[0].amt || amt > a[nbrAc-1].amt) return -1;
-    while(low+1 <= high){
-        mid = (low+high)/2;
-        if(a[mid].amt > amt) high = mid-1;
-        else if(a[mid].amt < amt) low = mid + 1;
-        else index = mid;
+    ascSort(a,nbrAc);
+    if(amt<a[0].amt || amt > a[nbrAc-1].amt){
+        printf("\nVeuillez fournir un montant entre %0.2f et %0.2f",a[0].amt,a[nbrAc-1].amt);
+        return;
     }
-    return (index != -1) ? index : high;
+    for (int i = 0; i < nbrAc; i++)
+        if (a[i].amt > amt) index = i;
+
+    _displayAccounts(a,index,nbrAc);     
 }
 
 void withdrawal(Account *a,int nbrOfAc){
@@ -189,10 +191,8 @@ int main(){
             case '6':descSort(ac,nbrAc);_displayAccounts(ac,0,nbrAc);break;
             case '7':{
                 float amount;
-                int index;
                 printf("\nEntrer le montant: "); scanf("%f",&amount);
-                index = startFrom(ac,amount,nbrAc);
-                printf("Index: %d",index);
+                startFrom(ac,amount,nbrAc);
 
             }break;
             case '8':printf("\nWoking on it...\n");break;
