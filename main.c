@@ -11,7 +11,7 @@ typedef struct account{
     float amt;
 }Account;
 
-void ascSort(Account *a,int len){
+void ascSort(Account a[],int len){
     bool sorted = 1; int i=0;
     do{
         for(int j=0;j<len-i-1;j++){
@@ -25,7 +25,7 @@ void ascSort(Account *a,int len){
     }while(!sorted && i<len-1);
 }
 
-void descSort(Account *a,int len){
+void descSort(Account a[],int len){
     bool sorted = 1; int i=0;
     do{
         for(int j=0;j<len-i-1;j++){
@@ -39,7 +39,7 @@ void descSort(Account *a,int len){
     }while(!sorted && i<len-1);
 }
 
-void createAccount(Account *a){
+void createAccount(Account a[]){
     printf("\nEntrer le CIN: ");
     fflush(stdin);
     gets(a->cin);
@@ -66,12 +66,10 @@ void _displayAccounts(Account a[],int from,int to){
     for(int i=from;i<to;i++) displayAccount(a[i]);
 }
 
-void _createAccounts(Account *ac,int *currentNbrOfAc,int nbrAc){
+void _createAccounts(Account ac[],int *currentNbrOfAc,int nbrAc){
     int a = *currentNbrOfAc;
     int b = a + nbrAc;
 
-    if(ac == NULL) ac = (Account*)malloc(b*sizeof(Account));
-    else ac = (Account*)realloc(ac,b*sizeof(Account));
 
     for(int i=a;i<b;i++){
         printf("\n\n***** Compte: [%d/%d] *****\n",i+1,b);
@@ -100,7 +98,7 @@ void startFrom(Account a[],float amt,int nbrAc,bool desc){
     }else _displayAccounts(a,i,nbrAc);
 }
 
-void withdrawal(Account *a,int nbrOfAc){
+void withdrawal(Account a[],int nbrOfAc){
     char cin[20];
     float ammount;
     printf("\nEntrer le CIN: ");
@@ -126,7 +124,7 @@ void withdrawal(Account *a,int nbrOfAc){
     printf("\nMontant Courant: %f",a[index].amt);
 }
 
-void deposit(Account *a,int nbrOfAc){
+void deposit(Account a[],int nbrOfAc){
     char cin[20];
     float ammount;
     printf("\nEntrer le CIN: ");
@@ -144,7 +142,7 @@ void deposit(Account *a,int nbrOfAc){
     printf("\nMontant Courant: %f",a[index].amt);
 }
 
-void bonus(Account *ac,int nbrAc,float percentage){
+void bonus(Account ac[],int nbrAc,float percentage){
     descSort(ac,nbrAc);
     for (int i = 0; i < 3; i++) ac[i].amt*=ac[i].amt*percentage;     
 }
@@ -178,17 +176,15 @@ char menu(int nbrAc){
 }
 
 int main(){
-    Account *ac = NULL;
+    Account ac[100];
     int nbrAc = 0;
     char ch;
     do{
         ch = menu(nbrAc);
         switch(ch){
             case '1':{
+                createAccount(&ac[nbrAc]);
                 nbrAc++;
-                if(ac == NULL) ac = (Account*)malloc(nbrAc*sizeof(Account));
-                else ac = (Account*)realloc(ac,nbrAc*sizeof(Account));
-                createAccount(&ac[nbrAc-1]);
             }break;
             case '2':{
                 int n;
@@ -227,7 +223,7 @@ int main(){
                 c = getch();
                 if (c == 'y') bonus(ac,nbrAc,1.3);
             }
-            case '0': free(ac);
+            case '0': printf("\n....Out");
         }
     }while(ch != '0');
     return 0;
