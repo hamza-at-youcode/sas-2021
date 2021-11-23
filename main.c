@@ -144,7 +144,7 @@ void deposit(Account a[],int nbrOfAc){
 
 void bonus(Account ac[],int nbrAc,float percentage){
     descSort(ac,nbrAc);
-    for (int i = 0; i < 3; i++) ac[i].amt*=ac[i].amt*percentage;     
+    for (int i = 0; i < 3; i++) ac[i].amt+=ac[i].amt*percentage;     
 }
 
 char menu(int nbrAc){
