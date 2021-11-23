@@ -222,8 +222,8 @@ int main(){
                 printf("Etes-vous sur de vouloir ajouter 1,3/100 aux trois premiers comptes?(y|n)");
                 c = getch();
                 if (c == 'y') bonus(ac,nbrAc,1.3);
-            }
-            case '0': printf("\n....Out");
+            }break;
+            case '0': printf("\n....Out");break;
         }
     }while(ch != '0');
     return 0;
