@@ -221,7 +221,7 @@ int main(){
                 c = getch();
                 if (c == 'y') bonus(ac,nbrAc,1.3);
             }
-
+            case '0': free(ac);
         }
     }while(ch != '0');
     return 0;
