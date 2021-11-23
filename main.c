@@ -149,13 +149,14 @@ void bonus(Account *ac,int nbrAc,float percentage){
     for (int i = 0; i < 3; i++) ac[i].amt*=ac[i].amt*percentage;     
 }
 
-char menu(){
+char menu(int nbrAc){
     printf("\nPress any key to continue/ ");
     char c = getch();
     system("cls");
     printf("\n\n      ******** MENU ********\n");
     printf("   Clicker sur 1: pour introduire un compte bancaire.\n");
     printf("   Clicker sur 2: pour introduire plusieurs comptes bancaires.\n");
+    if(nbrAc == 0) return;
     printf("   Clicker sur 3: pour fair une Retrait .\n");
     printf("   Clicker sur 4: pour fair une Depot.\n");
     printf("   Clicker sur 5: pour afficher les comptes par order Ascendant.\n");
@@ -176,7 +177,7 @@ int main(){
     int nbrAc = 0;
     char ch;
     do{
-        ch = menu();
+        ch = menu(nbrAc);
         switch(ch){
             case '1':{
                 nbrAc++;
