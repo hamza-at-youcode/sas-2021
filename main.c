@@ -3,13 +3,45 @@
 #include<stdbool.h>
 #include<string.h>
 #include<conio.h>
+#include<time.h>
+
+#define MAX 100
+
+typedef struct tr{
+    char type[10];
+    float amount;
+    char time[30];
+}Tr;
 
 typedef struct account{
     char cin[20];
     char fname[20];
     char lname[20];
     float amt;
+    int nbrOfTr;
+    Tr log[MAX];
 }Account;
+
+void registerTransaction(Account ac[],int index,char type[],float amount){
+    time_t rawtime;
+    struct tm * timeinfo;
+    time ( &rawtime );
+    timeinfo = localtime ( &rawtime );
+
+    strcpy(ac[index].log[ac[index].nbrOfTr].type,type);
+    strcpy(ac[index].log[ac[index].nbrOfTr].time,asctime(timeinfo));
+    ac[index].log[ac[index].nbrOfTr].amount = amount;
+    ac[index].nbrOfTr++;
+}
+
+void displayTransactions(Tr t[],int nbrOfTr){
+    for(int i=0;i<nbrOfTr;i++){
+        printf("\n\n\t-------------- T:%d --------------",i+1);
+        printf("\n\tActions: %s.\n",t[i].type);
+        printf("\tDate   : %s\n",t[i].time);
+        printf("\tMontant: %0.3f\n",t[i].amount);
+    }
+}
 
 void ascSort(Account a[],int len){
     bool sorted = 1; int i=0;
@@ -52,6 +84,7 @@ void createAccount(Account a[]){
     printf("\nEntrer le Montant: ");
     fflush(stdin);
     scanf("%f",&a->amt);
+    a->nbrOfTr = 0;
 }
 
 void displayAccount(Account a){
@@ -70,10 +103,10 @@ void _createAccounts(Account ac[],int *currentNbrOfAc,int nbrAc){
     int a = *currentNbrOfAc;
     int b = a + nbrAc;
 
-
     for(int i=a;i<b;i++){
         printf("\n\n***** Compte: [%d/%d] *****\n",i+1,b);
-        createAccount(ac+i);}
+        createAccount(ac+i);
+        registerTransaction(ac,i,"C.Cpt",ac[i].amt);}
     
     (*currentNbrOfAc) = b;
 }
@@ -122,6 +155,7 @@ void withdrawal(Account a[],int nbrOfAc){
     printf("\nAncien Montant: %f",a[index].amt);
     a[index].amt-=ammount;
     printf("\nMontant Courant: %f",a[index].amt);
+    registerTransaction(a,index,"Retrait",ammount);
 }
 
 void deposit(Account a[],int nbrOfAc){
@@ -140,6 +174,7 @@ void deposit(Account a[],int nbrOfAc){
     printf("\nAncien Montant: %f",a[index].amt);
     a[index].amt+=ammount;
     printf("\nMontant Courant: %f",a[index].amt);
+    registerTransaction(a,index,"Depot",ammount);
 }
 
 void bonus(Account ac[],int nbrAc,float percentage){
@@ -169,6 +204,7 @@ char menu(int nbrAc){
     printf("   Clicker sur 8: pour afficher par ordre descendant\n\t\t  les comptes bancaires ayant un montant superieur\n\t\t  a un chiffre introduit.\n");
     printf("   Clicker sur 9: pour fair une recherche par CIN.\n");
     printf("   Clicker sur b: Ajouter 1.3/100 aux comptes ayant les 3\n\t\t  premiers montants superieurs.\n");
+    printf("   Clicker sur t: pour voir les transactions d'une client.\n");
     printf("   Clicker sur 0: pour quiter.\n"); 
     printf("\n   Votre choi: "); 
     ch = getch();
@@ -184,6 +220,7 @@ int main(){
         switch(ch){
             case '1':{
                 createAccount(&ac[nbrAc]);
+                registerTransaction(ac,nbrAc,"C.Cpt",ac[nbrAc].amt);
                 nbrAc++;
             }break;
             case '2':{
@@ -222,6 +259,19 @@ int main(){
                 printf("Etes-vous sur de vouloir ajouter 1,3/100 aux trois premiers comptes?(y|n)");
                 c = getch();
                 if (c == 'y') bonus(ac,nbrAc,1.3);
+            }break;
+            case 't':{
+                char c[20];
+                printf("\nEntrer le cin de client: ");
+                fflush(stdin);
+                gets(c);
+                int index = findByCin(ac,c,nbrAc);
+                if(index == -1) {printf("\nIl n'ya pas une compte avec le CIN: %s\n",c);}
+                else {
+                    int nbrOfTr = ac[index].nbrOfTr;
+                    printf("\n** Nom et prenom: %s %s **",ac[index].fname,ac[index].lname);
+                    displayTransactions(ac[index].log,nbrOfTr);
+                }
             }break;
             case '0': printf("\n....Out");break;
             default: printf("\n\n\tVeuillez suivre les instructions !\n");
