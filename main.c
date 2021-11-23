@@ -156,7 +156,7 @@ char menu(int nbrAc){
     printf("\n\n      ******** MENU ********\n");
     printf("   Clicker sur 1: pour introduire un compte bancaire.\n");
     printf("   Clicker sur 2: pour introduire plusieurs comptes bancaires.\n");
-    if(nbrAc == 0) return;
+    if(nbrAc == 0) c;
     printf("   Clicker sur 3: pour fair une Retrait .\n");
     printf("   Clicker sur 4: pour fair une Depot.\n");
     printf("   Clicker sur 5: pour afficher les comptes par order Ascendant.\n");
