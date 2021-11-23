@@ -152,12 +152,14 @@ void bonus(Account *ac,int nbrAc,float percentage){
 char menu(int nbrAc){
     printf("\nPress any key to continue/ ");
     char c = getch();
+    char ch;
     system("cls");
     printf("\n\n      ******** MENU ********\n");
     printf("   Clicker sur 1: pour introduire un compte bancaire.\n");
     printf("   Clicker sur 2: pour introduire plusieurs comptes bancaires.\n");
     if(nbrAc == 0){
-        char ch;
+        printf("   Clicker sur 0: pour quiter.\n"); 
+        printf("\n   Votre choi: "); 
         ch = getch();
         return ch;
     }
@@ -171,7 +173,6 @@ char menu(int nbrAc){
     printf("   Clicker sur b: Ajouter 1.3/100 aux comptes ayant les 3\n\t\t  premiers montants superieurs.\n");
     printf("   Clicker sur 0: pour quiter.\n"); 
     printf("\n   Votre choi: "); 
-    char ch;
     ch = getch();
     return ch;
 }
