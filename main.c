@@ -224,6 +224,7 @@ int main(){
                 if (c == 'y') bonus(ac,nbrAc,1.3);
             }break;
             case '0': printf("\n....Out");break;
+            default: printf("\n\n\tVeuillez suivre les instructions !\n");
         }
     }while(ch != '0');
     return 0;
