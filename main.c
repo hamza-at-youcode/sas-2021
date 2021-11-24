@@ -22,6 +22,38 @@ typedef struct account{
     Tr log[MAX];
 }Account;
 
+void storeAccounts(Account *a){
+    FILE *f;
+    f = fopen("accounts.bin","wb");
+    if (!f) printf("\nOups Une erreur s'est produite !\n");
+    else fwrite(a,sizeof(Account),10,f);
+    fclose(f);
+}
+
+void readAccounts(Account *a){
+    FILE *f; 
+    f = fopen("accounts.bin","rb");
+    if (!f) return;
+    else fread(a,sizeof(Account),10,f);
+    fclose(f);
+}
+
+void storeNbrOfAccounts(int nbrAc){
+    FILE *f; 
+    f = fopen("number_of_accounts.txt","w");
+    if (!f) printf("\nOups Une erreur s'est produite !\n");
+    else fprintf(f,"%d",nbrAc);
+    fclose(f);
+}
+
+void raedNbrOfAccounts(int *nbrAc){
+    FILE *f; 
+    f = fopen("number_of_accounts.txt","r");
+    if (!f) storeNbrOfAccounts(*nbrAc);
+    else fscanf(f,"%d",nbrAc);
+    fclose(f);
+}
+
 void registerTransaction(Account ac[],int index,char type[],float amount){
     time_t rawtime;
     struct tm * timeinfo;
@@ -205,15 +237,15 @@ char menu(int nbrAc){
     printf("   Clicker sur 9: pour fair une recherche par CIN.\n");
     printf("   Clicker sur b: Ajouter 1.3/100 aux comptes ayant les 3\n\t\t  premiers montants superieurs.\n");
     printf("   Clicker sur t: pour voir les transactions d'une client.\n");
-    printf("   Clicker sur 0: pour quiter.\n"); 
+    printf("   Appuyez sur 0 pour enregistrer les comptes et quitter.\n"); 
     printf("\n   Votre choi: "); 
     ch = getch();
     return ch;
 }
 
 int main(){
-    Account ac[100];
-    int nbrAc = 0;
+    Account ac[100]; readAccounts(ac);
+    int nbrAc = 0; raedNbrOfAccounts(&nbrAc);
     char ch;
     do{
         ch = menu(nbrAc);
@@ -273,7 +305,12 @@ int main(){
                     displayTransactions(ac[index].log,nbrOfTr);
                 }
             }break;
-            case '0': printf("\n....Out");break;
+            case '0':{
+                printf("\n\nStockage des comptes...");
+                storeAccounts(ac);
+                printf("\nStockage le nombre des comptes...\n");
+                storeNbrOfAccounts(nbrAc);
+            }break;
             default: printf("\n\n\tVeuillez suivre les instructions !\n");
         }
     }while(ch != '0');
