@@ -290,7 +290,7 @@ int main(){
                 char c;
                 printf("Etes-vous sur de vouloir ajouter 1,3/100 aux trois premiers comptes?(y|n)");
                 c = getch();
-                if (c == 'y') bonus(ac,nbrAc,1.3);
+                if (c == 'y') bonus(ac,nbrAc,0.013);
             }break;
             case 't':{
                 char c[20];
